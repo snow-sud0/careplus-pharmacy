@@ -12,13 +12,14 @@ import {
   Pill,
   Phone,
   ShieldCheck,
-  Truck,
   X,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import pharmacyCare from "@/assets/careplus-pharmacy-care.webp";
 import pharmacyInterior from "@/assets/careplus-pharmacy-interior.webp";
+import pharmacyEnquiry from "@/assets/pharmacy-enquiry-unsplash.jpg";
+import pharmacyDelivery from "@/assets/pharmacy-delivery-pexels.jpg";
 
 const ENQUIRY_FORM_URL = "https://example.com/replace-with-customer-enquiry-form";
 const PHARMACY_ADDRESS =
@@ -26,6 +27,7 @@ const PHARMACY_ADDRESS =
 const OPENING_HOURS = "Monday – Sunday, 7:30 AM – 10:00 PM.";
 const PHARMACY_PHONE_DISPLAY = "08189612315";
 const PHARMACY_PHONE_HREF = "tel:+2348189612315";
+const DIRECTIONS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PHARMACY_ADDRESS)}`;
 
 const navigationLinks = [
   { label: "Home", href: "#home" },
@@ -183,7 +185,17 @@ function Index() {
       </header>
 
       <main id="main-content">
-        <section className="hero-section" id="home" aria-labelledby="hero-title">
+        <section className="hero-section hero-section--immersive" id="home" aria-labelledby="hero-title">
+          <img
+            className="hero-background-image"
+            src={pharmacyInterior}
+            alt=""
+            aria-hidden="true"
+            width="1536"
+            height="1024"
+            fetchPriority="high"
+          />
+          <div className="hero-image-overlay" aria-hidden="true" />
           <div className="page-container hero-grid">
             <div className="hero-copy" data-reveal>
               <p className="eyebrow">
@@ -212,25 +224,10 @@ function Index() {
                 <span>Everyday care, close to home</span>
               </div>
             </div>
-
-            <figure className="hero-photo reveal--image" data-reveal>
-              <img
-                src={pharmacyInterior}
-                alt="A pharmacist assisting a customer at a bright community pharmacy counter"
-                width="1536"
-                height="1024"
-                fetchPriority="high"
-              />
-              <figcaption className="hero-photo__caption">
-                <span className="hero-photo__pin" aria-hidden="true">
-                  <MapPin />
-                </span>
-                <span>
-                  <strong>Care close to home</strong>
-                  <span>{PHARMACY_ADDRESS}</span>
-                </span>
-              </figcaption>
-            </figure>
+            <div className="hero-location-pill" data-reveal>
+              <MapPin aria-hidden="true" />
+              <span>Serving the Benin City community</span>
+            </div>
           </div>
         </section>
 
@@ -329,6 +326,16 @@ function Index() {
               </p>
               <p className="form-note">Customer enquiry form link to be added.</p>
             </div>
+            <figure className="enquiry-photo reveal--image" data-reveal>
+              <img
+                src={pharmacyEnquiry}
+                alt="Medication blister packs shown as an example of products customers can ask about"
+                width="1800"
+                height="1800"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
             <EnquiryButton className="care-button--light care-button--large">
               Enquire About a Product <ArrowUpRight aria-hidden="true" />
             </EnquiryButton>
@@ -337,9 +344,16 @@ function Index() {
 
         <section className="delivery-section section-space" aria-labelledby="delivery-title">
           <div className="page-container delivery-inner">
-            <div className="delivery-icon" data-reveal aria-hidden="true">
-              <Truck />
-            </div>
+            <figure className="delivery-photo reveal--image" data-reveal>
+              <img
+                src={pharmacyDelivery}
+                alt="A Black delivery courier holding a parcel beside a motorcycle"
+                width="1600"
+                height="1000"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
             <div className="delivery-copy" data-reveal>
               <p className="eyebrow">
                 <span className="eyebrow__line" aria-hidden="true" />
@@ -401,13 +415,24 @@ function Index() {
               </EnquiryButton>
             </div>
 
-            <div className="map-placeholder" data-reveal>
-              <span className="map-placeholder__icon" aria-hidden="true">
+            <a
+              className="directions-card care-lift"
+              href={DIRECTIONS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-reveal
+            >
+              <span className="directions-card__art" aria-hidden="true">
+                <span className="directions-card__ring directions-card__ring--one" />
+                <span className="directions-card__ring directions-card__ring--two" />
                 <MapPin />
               </span>
-              <strong>CarePlus Pharmacy</strong>
-              <span>{PHARMACY_ADDRESS}</span>
-            </div>
+              <span className="directions-card__label">Visit us in Benin City</span>
+              <strong>{PHARMACY_ADDRESS}</strong>
+              <span className="directions-card__action">
+                Get directions <ArrowUpRight aria-hidden="true" />
+              </span>
+            </a>
           </div>
         </section>
 
@@ -512,14 +537,16 @@ function ServiceCard({ service }: { service: Service }) {
 
   return (
     <a
-      className="service-card care-lift"
+      className={`service-card service-card--${service.title.toLowerCase().replaceAll(" ", "-")} care-lift`}
       href={ENQUIRY_FORM_URL}
       target="_blank"
       rel="noopener noreferrer"
       data-reveal
     >
-      <span className="service-card__icon" aria-hidden="true">
-        <Icon />
+      <span className="service-card__visual" aria-hidden="true">
+        <span className="service-card__icon">
+          <Icon />
+        </span>
       </span>
       <span className="service-card__copy">
         <strong>{service.title}</strong>
