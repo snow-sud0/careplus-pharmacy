@@ -1,23 +1,501 @@
+import { useEffect, useState, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Baby,
+  Clock3,
+  HeartPulse,
+  MapPin,
+  Menu,
+  MessageCircle,
+  Pill,
+  Plus,
+  Phone,
+  ShieldCheck,
+  Truck,
+  X,
+  type LucideIcon,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import pharmacyCare from "@/assets/careplus-pharmacy-care.webp";
+import pharmacyInterior from "@/assets/careplus-pharmacy-interior.webp";
 
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const ENQUIRY_FORM_URL = "https://example.com/replace-with-customer-enquiry-form";
+
+const navigationLinks = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Contact", href: "#contact" },
+];
+
+const services: Service[] = [
+  {
+    icon: Pill,
+    title: "Medications",
+    description: "Enquire about medication availability.",
+  },
+  {
+    icon: Baby,
+    title: "Baby Products",
+    description: "Explore everyday baby-care essentials.",
+  },
+  {
+    icon: HeartPulse,
+    title: "Healthcare Products",
+    description: "Find everyday healthcare essentials.",
+  },
+  {
+    icon: MessageCircle,
+    title: "Pharmacy Support",
+    description: "Get help with general pharmacy enquiries.",
+  },
+];
+
+type Service = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+};
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "CarePlus Pharmacy | Your Community Pharmacy in Benin City" },
+      {
+        name: "description",
+        content:
+          "Visit CarePlus Pharmacy on Ekehuan Road, Benin City, for medications, baby products, healthcare essentials and friendly pharmacy support.",
+      },
+      { property: "og:title", content: "CarePlus Pharmacy | Your Health. Our Priority." },
+      {
+        property: "og:description",
+        content:
+          "Your trusted community pharmacy for medications, baby products and everyday healthcare needs in Benin City.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const revealItems = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+      return;
+    }
+
+    document.documentElement.classList.add("has-reveal-observer");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.14, rootMargin: "0px 0px -36px 0px" },
+    );
+
+    revealItems.forEach((item) => observer.observe(item));
+
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("has-reveal-observer");
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="careplus-root">
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+
+      <header className="site-header">
+        <div className="page-container site-header__inner">
+          <a
+            className="brand-lockup"
+            href="#home"
+            aria-label="CarePlus Pharmacy home"
+            onClick={() => setMenuOpen(false)}
+          >
+            <span className="brand-mark" aria-hidden="true">
+              <Plus />
+            </span>
+            <span className="brand-copy">
+              <strong>CarePlus</strong>
+              <span>PHARMACY</span>
+            </span>
+          </a>
+
+          <nav
+            id="primary-navigation"
+            className={`site-navigation${menuOpen ? " is-open" : ""}`}
+            aria-label="Main navigation"
+          >
+            {navigationLinks.map((link) => (
+              <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)}>
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="site-header__actions">
+            <EnquiryButton className="care-button--compact">
+              Enquire <ArrowUpRight aria-hidden="true" />
+            </EnquiryButton>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="mobile-menu-toggle"
+              aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={menuOpen}
+              aria-controls="primary-navigation"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <main id="main-content">
+        <section className="hero-section" id="home" aria-labelledby="hero-title">
+          <div className="page-container hero-grid">
+            <div className="hero-copy" data-reveal>
+              <p className="eyebrow">
+                <span className="eyebrow__line" aria-hidden="true" />
+                Community pharmacy · Benin City
+              </p>
+              <h1 id="hero-title">
+                Your Health.
+                <br />
+                <span>Our Priority.</span>
+              </h1>
+              <p className="hero-lede">
+                Your trusted community pharmacy for medications, baby products and everyday
+                healthcare needs.
+              </p>
+              <div className="hero-actions">
+                <EnquiryButton className="care-button--large">
+                  Enquire Now <ArrowUpRight aria-hidden="true" />
+                </EnquiryButton>
+                <a className="text-link" href="#services">
+                  Explore Services <ArrowRight aria-hidden="true" />
+                </a>
+              </div>
+              <div className="hero-reassurance">
+                <ShieldCheck aria-hidden="true" />
+                <span>Everyday care, close to home</span>
+              </div>
+            </div>
+
+            <figure className="hero-photo reveal--image" data-reveal>
+              <img
+                src={pharmacyInterior}
+                alt="A pharmacist assisting a customer at a bright community pharmacy counter"
+                width="1536"
+                height="1024"
+                fetchPriority="high"
+              />
+              <figcaption className="hero-photo__caption">
+                <span className="hero-photo__pin" aria-hidden="true">
+                  <MapPin />
+                </span>
+                <span>
+                  <strong>Care close to home</strong>
+                  <span>Ekehuan Road, Benin City</span>
+                </span>
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section className="information-strip" aria-label="Pharmacy information">
+          <div className="page-container information-grid">
+            <InformationItem
+              icon={MapPin}
+              label="Location"
+              value="Ekehuan Road, Benin City"
+            />
+            <InformationItem
+              icon={Clock3}
+              label="Opening hours"
+              value="Awaiting client confirmation"
+            />
+            <InformationItem
+              icon={Phone}
+              label="Contact"
+              value="Awaiting client confirmation"
+            />
+          </div>
+        </section>
+
+        <section className="about-section section-space" id="about" aria-labelledby="about-title">
+          <div className="page-container about-grid">
+            <figure className="about-photo reveal--image" data-reveal>
+              <img
+                src={pharmacyCare}
+                alt="A pharmacist speaking with a customer in a community pharmacy"
+                width="1536"
+                height="1024"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption className="about-photo__caption">
+                <span className="about-photo__icon" aria-hidden="true">
+                  <HeartPulse />
+                </span>
+                <span>Here for your everyday health needs</span>
+              </figcaption>
+            </figure>
+
+            <div className="about-copy" data-reveal>
+              <p className="eyebrow">
+                <span className="eyebrow__line" aria-hidden="true" />
+                A little closer to care
+              </p>
+              <h2 id="about-title">Your Community Pharmacy, Here for You.</h2>
+              <p>
+                At CarePlus Pharmacy, we are committed to helping our community access medications,
+                healthcare products and everyday pharmacy essentials. We aim to make it easier for
+                customers to get information and make enquiries about the products and services they
+                need.
+              </p>
+              <a className="text-link" href="#contact">
+                Find CarePlus <ArrowRight aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section
+          className="services-section section-space"
+          id="services"
+          aria-labelledby="services-title"
+        >
+          <div className="page-container">
+            <div className="section-heading" data-reveal>
+              <div>
+                <p className="eyebrow">
+                  <span className="eyebrow__line" aria-hidden="true" />
+                  Here when you need us
+                </p>
+                <h2 id="services-title">What We Offer</h2>
+              </div>
+              <p>
+                From everyday essentials to helpful product enquiries, our pharmacy is here for the
+                community.
+              </p>
+            </div>
+
+            <div className="service-grid">
+              {services.map((service) => (
+                <ServiceCard key={service.title} service={service} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="enquiry-section" aria-labelledby="enquiry-title">
+          <div className="page-container enquiry-inner" data-reveal>
+            <div className="enquiry-mark" aria-hidden="true">
+              <Pill />
+            </div>
+            <div className="enquiry-copy">
+              <p className="eyebrow eyebrow--light">Here to help</p>
+              <h2 id="enquiry-title">Looking for a Specific Product?</h2>
+              <p>
+                Let us help you check whether the product you need is available. Send us an enquiry
+                and our team can assist you.
+              </p>
+              <p className="form-note">Customer enquiry form link to be added.</p>
+            </div>
+            <EnquiryButton className="care-button--light care-button--large">
+              Enquire About a Product <ArrowUpRight aria-hidden="true" />
+            </EnquiryButton>
+          </div>
+        </section>
+
+        <section className="delivery-section section-space" aria-labelledby="delivery-title">
+          <div className="page-container delivery-inner">
+            <div className="delivery-icon" data-reveal aria-hidden="true">
+              <Truck />
+            </div>
+            <div className="delivery-copy" data-reveal>
+              <p className="eyebrow">
+                <span className="eyebrow__line" aria-hidden="true" />
+                Delivery enquiries
+              </p>
+              <h2 id="delivery-title">Need delivery information?</h2>
+              <p>
+                Contact the pharmacy to enquire about delivery arrangements. Delivery areas, fees
+                and times will be confirmed by the team.
+              </p>
+            </div>
+            <a className="text-link delivery-link" href="#contact" data-reveal>
+              Get in touch <ArrowRight aria-hidden="true" />
+            </a>
+          </div>
+        </section>
+
+        <section className="contact-section section-space" id="contact" aria-labelledby="contact-title">
+          <div className="page-container contact-grid">
+            <div className="contact-copy" data-reveal>
+              <p className="eyebrow">
+                <span className="eyebrow__line" aria-hidden="true" />
+                Come say hello
+              </p>
+              <h2 id="contact-title">Find CarePlus Pharmacy.</h2>
+              <p className="contact-intro">
+                We’re here to help with product availability and general pharmacy enquiries.
+              </p>
+              <dl className="contact-list">
+                <div>
+                  <dt>
+                    <MapPin aria-hidden="true" /> Location
+                  </dt>
+                  <dd>Ekehuan Road, Benin City, Edo State, Nigeria</dd>
+                </div>
+                <div>
+                  <dt>
+                    <Phone aria-hidden="true" /> Contact
+                  </dt>
+                  <dd>Phone and contact details to be confirmed</dd>
+                </div>
+                <div>
+                  <dt>
+                    <Clock3 aria-hidden="true" /> Opening hours
+                  </dt>
+                  <dd>Awaiting client confirmation</dd>
+                </div>
+              </dl>
+              <EnquiryButton className="care-button--large">
+                Enquire Now <ArrowUpRight aria-hidden="true" />
+              </EnquiryButton>
+            </div>
+
+            <div className="map-placeholder" data-reveal>
+              <span className="map-placeholder__icon" aria-hidden="true">
+                <MapPin />
+              </span>
+              <strong>CarePlus Pharmacy</strong>
+              <span>Ekehuan Road, Benin City</span>
+              <span className="map-placeholder__note">
+                Map link or embed awaiting exact location confirmation
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* CHATBASE INTEGRATION POINT: add the approved embed here when the account is ready.
+            Limit answers to general pharmacy information; never diagnose, recommend medicines,
+            suggest dosages, or replace a qualified pharmacist. */}
+        <div id="chatbase-integration" data-integration-status="pending" aria-hidden="true" />
+      </main>
+
+      <footer className="site-footer">
+        <div className="page-container footer-main">
+          <a className="brand-lockup brand-lockup--footer" href="#home">
+            <span className="brand-mark" aria-hidden="true">
+              <Plus />
+            </span>
+            <span className="brand-copy">
+              <strong>CarePlus</strong>
+              <span>PHARMACY</span>
+            </span>
+          </a>
+          <nav className="footer-navigation" aria-label="Footer navigation">
+            {navigationLinks.map((link) => (
+              <a key={link.href} href={link.href}>
+                {link.label}
+              </a>
+            ))}
+          </nav>
+          <p className="footer-location">Ekehuan Road, Benin City, Edo State, Nigeria</p>
+        </div>
+        <div className="page-container footer-bottom">
+          <span>© {new Date().getFullYear()} CarePlus Pharmacy</span>
+          <span>Everyday care, close to home.</span>
+        </div>
+      </footer>
     </div>
+  );
+}
+
+function EnquiryButton({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return (
+    <Button asChild className={`care-button ${className}`}>
+      <a href={ENQUIRY_FORM_URL} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    </Button>
+  );
+}
+
+function InformationItem({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="information-item" data-reveal>
+      <span className="information-item__icon" aria-hidden="true">
+        <Icon />
+      </span>
+      <span className="information-item__copy">
+        <strong>{label}</strong>
+        <span>{value}</span>
+      </span>
+    </div>
+  );
+}
+
+function ServiceCard({ service }: { service: Service }) {
+  const Icon = service.icon;
+
+  return (
+    <a
+      className="service-card care-lift"
+      href={ENQUIRY_FORM_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-reveal
+    >
+      <span className="service-card__icon" aria-hidden="true">
+        <Icon />
+      </span>
+      <span className="service-card__copy">
+        <strong>{service.title}</strong>
+        <span>{service.description}</span>
+      </span>
+      <span className="service-card__action">
+        Enquire <ArrowUpRight aria-hidden="true" />
+      </span>
+    </a>
   );
 }
