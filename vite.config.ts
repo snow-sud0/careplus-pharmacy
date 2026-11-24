@@ -15,4 +15,12 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    server: {
+      allowedHosts: [
+        "sb-3kjzimc00nfi.vercel.run",
+        "workspace-xyswlyxd-5b571525c0253ce4.v0.build",
+      ],
+    },
+  },
 });
