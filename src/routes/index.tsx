@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import pharmacyCare from "@/assets/careplus-pharmacy-care.webp";
 import pharmacyInterior from "@/assets/careplus-pharmacy-interior.webp";
+import pharmacyLogo from "@/assets/careplus-pharmacy-logo.png";
 import pharmacyEnquiry from "@/assets/pharmacy-enquiry-unsplash.jpg";
 import pharmacyDelivery from "@/assets/pharmacy-delivery-pexels.jpg";
 
@@ -144,13 +145,13 @@ function Index() {
             aria-label="CarePlus Pharmacy home"
             onClick={() => setMenuOpen(false)}
           >
-            <span className="brand-mark" aria-hidden="true">
-              <CarePlusLogoMark />
-            </span>
-            <span className="brand-copy">
-              <strong>CarePlus</strong>
-              <span>PHARMACY</span>
-            </span>
+            <img
+              className="brand-logo-image"
+              src={pharmacyLogo}
+              alt="CarePlus Pharmacy logo"
+              width="1156"
+              height="367"
+            />
           </a>
 
           <nav
@@ -228,22 +229,6 @@ function Index() {
               <MapPin aria-hidden="true" />
               <span>Serving the Benin City community</span>
             </div>
-          </div>
-        </section>
-
-        <section className="information-strip" aria-label="Pharmacy information">
-          <div className="page-container information-grid">
-            <InformationItem icon={MapPin} label="Location" value={PHARMACY_ADDRESS} />
-            <InformationItem icon={Clock3} label="Opening hours" value={OPENING_HOURS} />
-            <InformationItem
-              icon={Phone}
-              label="Contact"
-              value={
-                <a className="contact-phone" href={PHARMACY_PHONE_HREF}>
-                  {PHARMACY_PHONE_DISPLAY}
-                </a>
-              }
-            />
           </div>
         </section>
 
@@ -445,13 +430,13 @@ function Index() {
       <footer className="site-footer">
         <div className="page-container footer-main">
           <a className="brand-lockup brand-lockup--footer" href="#home">
-            <span className="brand-mark" aria-hidden="true">
-              <CarePlusLogoMark />
-            </span>
-            <span className="brand-copy">
-              <strong>CarePlus</strong>
-              <span>PHARMACY</span>
-            </span>
+            <img
+              className="brand-logo-image"
+              src={pharmacyLogo}
+              alt="CarePlus Pharmacy logo"
+              width="1156"
+              height="367"
+            />
           </a>
           <nav className="footer-navigation" aria-label="Footer navigation">
             {navigationLinks.map((link) => (
@@ -460,7 +445,6 @@ function Index() {
               </a>
             ))}
           </nav>
-          <p className="footer-location">{PHARMACY_ADDRESS}</p>
         </div>
         <div className="page-container footer-bottom">
           <span>© {new Date().getFullYear()} CarePlus Pharmacy</span>
@@ -471,35 +455,6 @@ function Index() {
   );
 }
 
-function CarePlusLogoMark() {
-  return (
-    <svg viewBox="0 0 48 48" fill="none" focusable="false" aria-hidden="true">
-      <path
-        d="M24 5v7m0 24v7M7.5 14.5 14.2 18.4m19.6 11.2 6.7 3.9M7.5 33.5 14.2 29.6m19.6-11.2 6.7-3.9"
-        stroke="currentColor"
-        strokeWidth="3.8"
-        strokeLinecap="round"
-      />
-      <path
-        d="M24 12l-4-4m4 4 4-4M24 36l-4 4m4-4 4 4M13.5 18l-5-.6m5 .6 1-5m20 17 5 .6m-5-.6-1 5M13.5 30l-5 .6m5-.6 1 5m20-17 5-.6m-5 .6-1-5"
-        stroke="currentColor"
-        strokeWidth="2.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle
-        cx="24"
-        cy="24"
-        r="11.5"
-        fill="var(--secondary)"
-        stroke="currentColor"
-        strokeWidth="1.4"
-      />
-      <path d="M21 13h6v8h8v6h-8v8h-6v-8h-8v-6h8z" fill="var(--secondary-foreground)" />
-    </svg>
-  );
-}
-
 function EnquiryButton({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <Button asChild className={`care-button ${className}`}>
@@ -507,28 +462,6 @@ function EnquiryButton({ children, className = "" }: { children: ReactNode; clas
         {children}
       </a>
     </Button>
-  );
-}
-
-function InformationItem({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: LucideIcon;
-  label: string;
-  value: ReactNode;
-}) {
-  return (
-    <div className="information-item" data-reveal>
-      <span className="information-item__icon" aria-hidden="true">
-        <Icon />
-      </span>
-      <span className="information-item__copy">
-        <strong>{label}</strong>
-        <span>{value}</span>
-      </span>
-    </div>
   );
 }
 
