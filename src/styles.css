@@ -562,6 +562,16 @@ img {
   line-height: 1.45;
 }
 
+.contact-phone {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.contact-phone:hover {
+  color: var(--primary);
+}
+
 .section-space {
   padding-block: 88px;
 }
