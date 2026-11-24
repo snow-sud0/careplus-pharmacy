@@ -227,8 +227,8 @@ img {
 }
 
 .brand-mark svg {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   stroke-width: 2.5;
 }
 
@@ -560,6 +560,16 @@ img {
   color: var(--muted-foreground);
   font-size: 12px;
   line-height: 1.45;
+}
+
+.contact-phone {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.contact-phone:hover {
+  color: var(--primary);
 }
 
 .section-space {

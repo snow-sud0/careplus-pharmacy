@@ -10,7 +10,6 @@ import {
   Menu,
   MessageCircle,
   Pill,
-  Plus,
   Phone,
   ShieldCheck,
   Truck,
@@ -22,6 +21,11 @@ import pharmacyCare from "@/assets/careplus-pharmacy-care.webp";
 import pharmacyInterior from "@/assets/careplus-pharmacy-interior.webp";
 
 const ENQUIRY_FORM_URL = "https://example.com/replace-with-customer-enquiry-form";
+const PHARMACY_ADDRESS =
+  "1, Lucky Street, opposite UBTH, Ugbowo, Lagos Road, Benin City, Edo State, Nigeria";
+const OPENING_HOURS = "Monday – Sunday, 7:30 AM – 10:00 PM.";
+const PHARMACY_PHONE_DISPLAY = "08189612315";
+const PHARMACY_PHONE_HREF = "tel:+2348189612315";
 
 const navigationLinks = [
   { label: "Home", href: "#home" },
@@ -65,8 +69,7 @@ export const Route = createFileRoute("/")({
       { title: "CarePlus Pharmacy | Your Community Pharmacy in Benin City" },
       {
         name: "description",
-        content:
-          "Visit CarePlus Pharmacy on Ekehuan Road, Benin City, for medications, baby products, healthcare essentials and friendly pharmacy support.",
+        content: `Visit CarePlus Pharmacy at ${PHARMACY_ADDRESS}, for medications, baby products, healthcare essentials and friendly pharmacy support.`,
       },
       { property: "og:title", content: "CarePlus Pharmacy | Your Health. Our Priority." },
       {
@@ -140,7 +143,7 @@ function Index() {
             onClick={() => setMenuOpen(false)}
           >
             <span className="brand-mark" aria-hidden="true">
-              <Plus />
+              <CarePlusLogoMark />
             </span>
             <span className="brand-copy">
               <strong>CarePlus</strong>
@@ -224,7 +227,7 @@ function Index() {
                 </span>
                 <span>
                   <strong>Care close to home</strong>
-                  <span>Ekehuan Road, Benin City</span>
+                  <span>{PHARMACY_ADDRESS}</span>
                 </span>
               </figcaption>
             </figure>
@@ -233,20 +236,16 @@ function Index() {
 
         <section className="information-strip" aria-label="Pharmacy information">
           <div className="page-container information-grid">
-            <InformationItem
-              icon={MapPin}
-              label="Location"
-              value="Ekehuan Road, Benin City"
-            />
-            <InformationItem
-              icon={Clock3}
-              label="Opening hours"
-              value="Awaiting client confirmation"
-            />
+            <InformationItem icon={MapPin} label="Location" value={PHARMACY_ADDRESS} />
+            <InformationItem icon={Clock3} label="Opening hours" value={OPENING_HOURS} />
             <InformationItem
               icon={Phone}
               label="Contact"
-              value="Awaiting client confirmation"
+              value={
+                <a className="contact-phone" href={PHARMACY_PHONE_HREF}>
+                  {PHARMACY_PHONE_DISPLAY}
+                </a>
+              }
             />
           </div>
         </section>
@@ -272,8 +271,7 @@ function Index() {
 
             <div className="about-copy" data-reveal>
               <p className="eyebrow">
-                <span className="eyebrow__line" aria-hidden="true" />
-                A little closer to care
+                <span className="eyebrow__line" aria-hidden="true" />A little closer to care
               </p>
               <h2 id="about-title">Your Community Pharmacy, Here for You.</h2>
               <p>
@@ -349,8 +347,8 @@ function Index() {
               </p>
               <h2 id="delivery-title">Need delivery information?</h2>
               <p>
-                Contact the pharmacy to enquire about delivery arrangements. Delivery areas, fees
-                and times will be confirmed by the team.
+                We offer delivery services across Benin City. Contact CarePlus Pharmacy to enquire
+                about product availability and delivery arrangements.
               </p>
             </div>
             <a className="text-link delivery-link" href="#contact" data-reveal>
@@ -359,7 +357,11 @@ function Index() {
           </div>
         </section>
 
-        <section className="contact-section section-space" id="contact" aria-labelledby="contact-title">
+        <section
+          className="contact-section section-space"
+          id="contact"
+          aria-labelledby="contact-title"
+        >
           <div className="page-container contact-grid">
             <div className="contact-copy" data-reveal>
               <p className="eyebrow">
@@ -375,19 +377,23 @@ function Index() {
                   <dt>
                     <MapPin aria-hidden="true" /> Location
                   </dt>
-                  <dd>Ekehuan Road, Benin City, Edo State, Nigeria</dd>
+                  <dd>{PHARMACY_ADDRESS}</dd>
                 </div>
                 <div>
                   <dt>
                     <Phone aria-hidden="true" /> Contact
                   </dt>
-                  <dd>Phone and contact details to be confirmed</dd>
+                  <dd>
+                    <a className="contact-phone" href={PHARMACY_PHONE_HREF}>
+                      {PHARMACY_PHONE_DISPLAY}
+                    </a>
+                  </dd>
                 </div>
                 <div>
                   <dt>
                     <Clock3 aria-hidden="true" /> Opening hours
                   </dt>
-                  <dd>Awaiting client confirmation</dd>
+                  <dd>{OPENING_HOURS}</dd>
                 </div>
               </dl>
               <EnquiryButton className="care-button--large">
@@ -400,10 +406,7 @@ function Index() {
                 <MapPin />
               </span>
               <strong>CarePlus Pharmacy</strong>
-              <span>Ekehuan Road, Benin City</span>
-              <span className="map-placeholder__note">
-                Map link or embed awaiting exact location confirmation
-              </span>
+              <span>{PHARMACY_ADDRESS}</span>
             </div>
           </div>
         </section>
@@ -418,7 +421,7 @@ function Index() {
         <div className="page-container footer-main">
           <a className="brand-lockup brand-lockup--footer" href="#home">
             <span className="brand-mark" aria-hidden="true">
-              <Plus />
+              <CarePlusLogoMark />
             </span>
             <span className="brand-copy">
               <strong>CarePlus</strong>
@@ -432,7 +435,7 @@ function Index() {
               </a>
             ))}
           </nav>
-          <p className="footer-location">Ekehuan Road, Benin City, Edo State, Nigeria</p>
+          <p className="footer-location">{PHARMACY_ADDRESS}</p>
         </div>
         <div className="page-container footer-bottom">
           <span>© {new Date().getFullYear()} CarePlus Pharmacy</span>
@@ -440,6 +443,35 @@ function Index() {
         </div>
       </footer>
     </div>
+  );
+}
+
+function CarePlusLogoMark() {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" focusable="false" aria-hidden="true">
+      <path
+        d="M24 5v7m0 24v7M7.5 14.5 14.2 18.4m19.6 11.2 6.7 3.9M7.5 33.5 14.2 29.6m19.6-11.2 6.7-3.9"
+        stroke="currentColor"
+        strokeWidth="3.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M24 12l-4-4m4 4 4-4M24 36l-4 4m4-4 4 4M13.5 18l-5-.6m5 .6 1-5m20 17 5 .6m-5-.6-1 5M13.5 30l-5 .6m5-.6 1 5m20-17 5-.6m-5 .6-1-5"
+        stroke="currentColor"
+        strokeWidth="2.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle
+        cx="24"
+        cy="24"
+        r="11.5"
+        fill="var(--secondary)"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <path d="M21 13h6v8h8v6h-8v8h-6v-8h-8v-6h8z" fill="var(--secondary-foreground)" />
+    </svg>
   );
 }
 
@@ -460,7 +492,7 @@ function InformationItem({
 }: {
   icon: LucideIcon;
   label: string;
-  value: string;
+  value: ReactNode;
 }) {
   return (
     <div className="information-item" data-reveal>
