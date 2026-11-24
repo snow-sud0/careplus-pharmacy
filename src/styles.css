@@ -2087,3 +2087,10 @@ img {
     transition: none;
   }
 }
+
+@media (max-width: 620px) {
+  .information-item,
+  .information-item:first-child {
+    padding-inline: 0;
+  }
+}
