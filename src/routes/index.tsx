@@ -450,19 +450,27 @@ function CarePlusLogoMark() {
   return (
     <svg viewBox="0 0 48 48" fill="none" focusable="false" aria-hidden="true">
       <path
-        d="M24 5v12m0 14v12M7.5 14.5l12 7m9 5 12 7M7.5 33.5l12-7m9-5 12-7"
+        d="M24 5v7m0 24v7M7.5 14.5 14.2 18.4m19.6 11.2 6.7 3.9M7.5 33.5 14.2 29.6m19.6-11.2 6.7-3.9"
         stroke="currentColor"
         strokeWidth="3.8"
         strokeLinecap="round"
       />
       <path
-        d="M24 12l-4-4m4 4 4-4M24 36l-4 4m4-4 4 4M14 18l-5-1m5 1 1-5m19 17 5 1m-5-1-1 5M14 30l-5 1m5-1 1 5m19-17 5-1m-5 1-1-5"
+        d="M24 12l-4-4m4 4 4-4M24 36l-4 4m4-4 4 4M13.5 18l-5-.6m5 .6 1-5m20 17 5 .6m-5-.6-1 5M13.5 30l-5 .6m5-.6 1 5m20-17 5-.6m-5 .6-1-5"
         stroke="currentColor"
         strokeWidth="2.8"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M21 17h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="var(--secondary)" />
+      <circle
+        cx="24"
+        cy="24"
+        r="11.5"
+        fill="var(--secondary)"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <path d="M21 13h6v8h8v6h-8v8h-6v-8h-8v-6h8z" fill="var(--secondary-foreground)" />
     </svg>
   );
 }
