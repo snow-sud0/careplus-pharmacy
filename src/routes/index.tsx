@@ -4,6 +4,8 @@ import {
   ArrowRight,
   ArrowUpRight,
   Baby,
+  Facebook,
+  Instagram,
   Clock3,
   HeartPulse,
   MapPin,
@@ -16,11 +18,11 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import pharmacyCare from "@/assets/careplus-pharmacy-care.webp";
-import pharmacyInterior from "@/assets/careplus-pharmacy-interior.webp";
+import pharmacistConsultation from "@/assets/careplus-pharmacist-consultation.jpg";
+import pharmacyExterior from "@/assets/careplus-pharmacy-exterior.jpg";
 import pharmacyLogo from "@/assets/careplus-pharmacy-logo.png";
-import pharmacyEnquiry from "@/assets/pharmacy-enquiry-unsplash.jpg";
-import pharmacyDelivery from "@/assets/pharmacy-delivery-pexels.jpg";
+import pharmacyProducts from "@/assets/careplus-pharmacy-products.jpg";
+import pharmacyDelivery from "@/assets/careplus-delivery-rider.jpg";
 
 const ENQUIRY_FORM_URL = "https://example.com/replace-with-customer-enquiry-form";
 const PHARMACY_ADDRESS =
@@ -187,13 +189,18 @@ function Index() {
 
       <main id="main-content">
         <section className="hero-section hero-section--immersive" id="home" aria-labelledby="hero-title">
+          <div
+            className="hero-background-fill"
+            style={{ backgroundImage: `url("${pharmacyExterior}")` }}
+            aria-hidden="true"
+          />
           <img
             className="hero-background-image"
-            src={pharmacyInterior}
+            src={pharmacyExterior}
             alt=""
             aria-hidden="true"
-            width="1536"
-            height="1024"
+            width="762"
+            height="506"
             fetchPriority="high"
           />
           <div className="hero-image-overlay" aria-hidden="true" />
@@ -236,10 +243,10 @@ function Index() {
           <div className="page-container about-grid">
             <figure className="about-photo reveal--image" data-reveal>
               <img
-                src={pharmacyCare}
-                alt="A pharmacist speaking with a customer in a community pharmacy"
-                width="1536"
-                height="1024"
+                src={pharmacistConsultation}
+                alt="A CarePlus pharmacist consulting with a customer in the pharmacy"
+                width="762"
+                height="506"
                 loading="lazy"
                 decoding="async"
               />
@@ -313,10 +320,10 @@ function Index() {
             </div>
             <figure className="enquiry-photo reveal--image" data-reveal>
               <img
-                src={pharmacyEnquiry}
-                alt="Medication blister packs shown as an example of products customers can ask about"
-                width="1800"
-                height="1800"
+                src={pharmacyProducts}
+                alt="A CarePlus staff member selecting a product from the pharmacy shelves"
+                width="762"
+                height="506"
                 loading="lazy"
                 decoding="async"
               />
@@ -332,9 +339,9 @@ function Index() {
             <figure className="delivery-photo reveal--image" data-reveal>
               <img
                 src={pharmacyDelivery}
-                alt="A Black delivery courier holding a parcel beside a motorcycle"
-                width="1600"
-                height="1000"
+                alt="A CarePlus Pharmacy delivery rider holding a branded package beside his motorcycle"
+                width="762"
+                height="506"
                 loading="lazy"
                 decoding="async"
               />
@@ -429,26 +436,56 @@ function Index() {
 
       <footer className="site-footer">
         <div className="page-container footer-main">
-          <a className="brand-lockup brand-lockup--footer" href="#home">
-            <img
-              className="brand-logo-image"
-              src={pharmacyLogo}
-              alt="CarePlus Pharmacy logo"
-              width="1156"
-              height="367"
-            />
-          </a>
-          <nav className="footer-navigation" aria-label="Footer navigation">
-            {navigationLinks.map((link) => (
-              <a key={link.href} href={link.href}>
-                {link.label}
-              </a>
-            ))}
-          </nav>
+          <div className="footer-brand">
+            <a className="brand-lockup brand-lockup--footer" href="#home">
+              <img
+                className="brand-logo-image"
+                src={pharmacyLogo}
+                alt="CarePlus Pharmacy logo"
+                width="1156"
+                height="367"
+              />
+            </a>
+            <p>Everyday care, close to home.</p>
+          </div>
+
+          <div className="footer-center">
+            <div className="footer-notebook" aria-label="Thanks for stopping by.">
+              <span className="notebook-clip" aria-hidden="true" />
+              <span className="notebook-message">Thanks for stopping by.</span>
+              <span className="notebook-pencil" aria-hidden="true">
+                <span className="notebook-pencil__eraser" />
+                <span className="notebook-pencil__body" />
+                <span className="notebook-pencil__tip" />
+              </span>
+            </div>
+
+            <div className="footer-socials" aria-label="Social media">
+              <button type="button" className="footer-social-button" aria-label="WhatsApp profile link not configured" title="WhatsApp profile link not configured" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M20.2 11.7a8.2 8.2 0 0 1-12.1 7.2L4 20l1.2-4a8.2 8.2 0 1 1 15-4.3Z" />
+                  <path d="M9.1 8.8c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4-.1.6.5.9 1.2 1.5 2.1 2 .2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.2.1.4.3.3.6-.1.5-.3 1-.8 1.3-.4.3-.9.4-1.4.3-1.5-.3-3.1-1.2-4.4-2.5-1.1-1.1-1.8-2.3-2-3.4-.1-.5 0-1 .3-1.4l.8-.9Z" />
+                </svg>
+              </button>
+              <button type="button" className="footer-social-button" aria-label="Facebook profile link not configured" title="Facebook profile link not configured" disabled>
+                <Facebook aria-hidden="true" />
+              </button>
+              <button type="button" className="footer-social-button" aria-label="Instagram profile link not configured" title="Instagram profile link not configured" disabled>
+                <Instagram aria-hidden="true" />
+              </button>
+            </div>
+
+            <nav className="footer-navigation" aria-label="Footer navigation">
+              {navigationLinks.map((link) => (
+                <a key={link.href} href={link.href}>
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          </div>
         </div>
         <div className="page-container footer-bottom">
-          <span>© {new Date().getFullYear()} CarePlus Pharmacy</span>
-          <span>Everyday care, close to home.</span>
+          <span>© 2026 CarePlus Pharmacy. All rights reserved.</span>
         </div>
       </footer>
     </div>
