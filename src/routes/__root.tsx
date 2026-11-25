@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { connectCarePlusBotpress } from "../lib/careplus-botpress";
 
 const BOTPRESS_INJECT_ID = "careplus-botpress-inject";
 const BOTPRESS_CONFIG_ID = "careplus-botpress-config";
@@ -117,7 +118,10 @@ function BotpressChatbot() {
     observer.observe(document.documentElement, { childList: true, subtree: true });
 
     botpressScriptsPromise ??= loadBotpressScript(BOTPRESS_INJECT_ID, BOTPRESS_INJECT_URL)
-      .then(() => loadBotpressScript(BOTPRESS_CONFIG_ID, BOTPRESS_CONFIG_URL, true))
+      .then(() => {
+        connectCarePlusBotpress();
+        return loadBotpressScript(BOTPRESS_CONFIG_ID, BOTPRESS_CONFIG_URL, true);
+      })
       .catch((error: unknown) => {
         botpressScriptsPromise = undefined;
         console.error("CarePlus Pharmacy Assistant could not be loaded.", error);

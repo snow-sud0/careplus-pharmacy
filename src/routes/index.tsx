@@ -23,8 +23,8 @@ import pharmacyExterior from "@/assets/careplus-pharmacy-exterior.jpg";
 import pharmacyLogo from "@/assets/careplus-pharmacy-logo.png";
 import pharmacyProducts from "@/assets/careplus-pharmacy-products.jpg";
 import pharmacyDelivery from "@/assets/careplus-delivery-rider.jpg";
+import { openCarePlusBotpress } from "@/lib/careplus-botpress";
 
-const ENQUIRY_FORM_URL = "https://example.com/replace-with-customer-enquiry-form";
 const PHARMACY_ADDRESS =
   "1, Lucky Street, opposite UBTH, Ugbowo, Lagos Road, Benin City, Edo State, Nigeria";
 const OPENING_HOURS = "Monday – Sunday, 7:30 AM – 10:00 PM.";
@@ -485,10 +485,8 @@ function Index() {
 
 function EnquiryButton({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <Button asChild className={`care-button ${className}`}>
-      <a href={ENQUIRY_FORM_URL} target="_blank" rel="noopener noreferrer">
-        {children}
-      </a>
+    <Button className={`care-button ${className}`} onClick={openCarePlusBotpress}>
+      {children}
     </Button>
   );
 }
@@ -497,11 +495,10 @@ function ServiceCard({ service }: { service: Service }) {
   const Icon = service.icon;
 
   return (
-    <a
+    <button
+      type="button"
       className={`service-card service-card--${service.title.toLowerCase().replaceAll(" ", "-")} care-lift`}
-      href={ENQUIRY_FORM_URL}
-      target="_blank"
-      rel="noopener noreferrer"
+      onClick={openCarePlusBotpress}
       data-reveal
     >
       <span className="service-card__visual" aria-hidden="true">
@@ -516,6 +513,6 @@ function ServiceCard({ service }: { service: Service }) {
       <span className="service-card__action">
         Enquire <ArrowUpRight aria-hidden="true" />
       </span>
-    </a>
+    </button>
   );
 }
