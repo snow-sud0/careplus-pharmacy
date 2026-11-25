@@ -13,6 +13,123 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
+const BOTPRESS_INJECT_ID = "careplus-botpress-inject";
+const BOTPRESS_CONFIG_ID = "careplus-botpress-config";
+const BOTPRESS_STYLE_ID = "careplus-botpress-styles";
+const BOTPRESS_INJECT_URL = "https://cdn.botpress.cloud/webchat/v5.0/inject.js";
+const BOTPRESS_CONFIG_URL =
+  "https://files.bpcontent.cloud/2026/11/25/01/20261125011951-VZB74AQP.js";
+
+let botpressScriptsPromise: Promise<void> | undefined;
+
+function styleBotpressShadowRoots() {
+  document.querySelectorAll<HTMLElement>(".bpChatContainer *").forEach((element) => {
+    const shadowRoot = element.shadowRoot;
+    if (!shadowRoot || shadowRoot.getElementById(BOTPRESS_STYLE_ID)) return;
+
+    const style = document.createElement("style");
+    style.id = BOTPRESS_STYLE_ID;
+    style.textContent = `
+      .bpFabWrapper {
+        right: 20px !important;
+        bottom: max(18px, env(safe-area-inset-bottom, 0px)) !important;
+      }
+      .bpFabContainer {
+        background-color: #17623f !important;
+        color: #ffffff !important;
+      }
+      .bpFabIcon {
+        background-color: #ffffff !important;
+      }
+      .bpWebchat {
+        right: 20px !important;
+        bottom: 92px !important;
+        width: min(400px, calc(100vw - 40px)) !important;
+        height: min(640px, calc(100dvh - 112px)) !important;
+        max-height: calc(100dvh - 112px) !important;
+      }
+      @media (max-width: 700px) {
+        .bpFabWrapper {
+          right: 16px !important;
+          bottom: max(16px, env(safe-area-inset-bottom, 0px)) !important;
+        }
+        .bpWebchat {
+          right: 20px !important;
+          bottom: calc(env(safe-area-inset-bottom, 0px) + 82px) !important;
+          width: calc(100vw - 40px) !important;
+          height: min(620px, calc(100dvh - 106px)) !important;
+          max-height: calc(100dvh - 106px) !important;
+          border-radius: 20px !important;
+        }
+      }
+    `;
+    shadowRoot.appendChild(style);
+  });
+}
+
+function loadBotpressScript(id: string, src: string, defer = false) {
+  const existingScript = document.getElementById(id) as HTMLScriptElement | null;
+
+  if (existingScript?.dataset["loaded"] === "true") {
+    return Promise.resolve();
+  }
+
+  if (existingScript) {
+    return new Promise<void>((resolve, reject) => {
+      existingScript.addEventListener("load", () => resolve(), { once: true });
+      existingScript.addEventListener(
+        "error",
+        () => reject(new Error(`Could not load Botpress script: ${src}`)),
+        { once: true },
+      );
+    });
+  }
+
+  return new Promise<void>((resolve, reject) => {
+    const script = document.createElement("script");
+    script.id = id;
+    script.src = src;
+    script.async = false;
+    script.defer = defer;
+    script.addEventListener(
+      "load",
+      () => {
+        script.dataset["loaded"] = "true";
+        resolve();
+      },
+      { once: true },
+    );
+    script.addEventListener(
+      "error",
+      () => {
+        script.remove();
+        reject(new Error(`Could not load Botpress script: ${src}`));
+      },
+      { once: true },
+    );
+    document.head.appendChild(script);
+  });
+}
+
+function BotpressChatbot() {
+  useEffect(() => {
+    const observer = new MutationObserver(styleBotpressShadowRoots);
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    botpressScriptsPromise ??= loadBotpressScript(BOTPRESS_INJECT_ID, BOTPRESS_INJECT_URL)
+      .then(() => loadBotpressScript(BOTPRESS_CONFIG_ID, BOTPRESS_CONFIG_URL, true))
+      .catch((error: unknown) => {
+        botpressScriptsPromise = undefined;
+        console.error("CarePlus Pharmacy Assistant could not be loaded.", error);
+      });
+
+    void botpressScriptsPromise.then(styleBotpressShadowRoots);
+    return () => observer.disconnect();
+  }, []);
+
+  return null;
+}
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -131,6 +248,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <BotpressChatbot />
     </QueryClientProvider>
   );
 }

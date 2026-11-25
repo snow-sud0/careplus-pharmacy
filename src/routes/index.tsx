@@ -423,10 +423,6 @@ function Index() {
           </div>
         </section>
 
-        {/* CHATBASE INTEGRATION POINT: add the approved embed here when the account is ready.
-            Limit answers to general pharmacy information; never diagnose, recommend medicines,
-            suggest dosages, or replace a qualified pharmacist. */}
-        <div id="chatbase-integration" data-integration-status="pending" aria-hidden="true" />
       </main>
 
       <footer className="site-footer">
