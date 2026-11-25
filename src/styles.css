@@ -1500,7 +1500,6 @@ img {
   color: #fff;
 }
 
-.hero-background-fill,
 .hero-background-image,
 .hero-image-overlay {
   position: absolute;
@@ -1510,17 +1509,9 @@ img {
   height: 100%;
 }
 
-.hero-background-fill {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  filter: blur(12px);
-  transform: scale(1.04);
-}
-
 .hero-background-image {
-  object-fit: contain;
-  object-position: center;
+  object-fit: cover;
+  object-position: center 58%;
   animation: hero-image-arrive 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
@@ -2069,7 +2060,7 @@ img {
   }
 
   .hero-background-image {
-    object-position: center;
+    object-position: 50% center;
   }
 
   .hero-image-overlay {

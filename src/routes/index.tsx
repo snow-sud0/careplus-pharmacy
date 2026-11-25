@@ -189,11 +189,6 @@ function Index() {
 
       <main id="main-content">
         <section className="hero-section hero-section--immersive" id="home" aria-labelledby="hero-title">
-          <div
-            className="hero-background-fill"
-            style={{ backgroundImage: `url("${pharmacyExterior}")` }}
-            aria-hidden="true"
-          />
           <img
             className="hero-background-image"
             src={pharmacyExterior}
