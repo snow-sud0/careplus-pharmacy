@@ -23,7 +23,7 @@ import pharmacyExterior from "@/assets/careplus-pharmacy-exterior.jpg";
 import pharmacyLogo from "@/assets/careplus-pharmacy-logo.png";
 import pharmacyProducts from "@/assets/careplus-pharmacy-products.jpg";
 import pharmacyDelivery from "@/assets/careplus-delivery-rider.jpg";
-import { openCarePlusBotpress } from "@/lib/careplus-botpress";
+import { startCarePlusProductEnquiry } from "@/lib/careplus-botpress";
 
 const PHARMACY_ADDRESS =
   "1, Lucky Street, opposite UBTH, Ugbowo, Lagos Road, Benin City, Edo State, Nigeria";
@@ -485,7 +485,7 @@ function Index() {
 
 function EnquiryButton({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <Button className={`care-button ${className}`} onClick={openCarePlusBotpress}>
+    <Button className={`care-button ${className}`} onClick={startCarePlusProductEnquiry}>
       {children}
     </Button>
   );
@@ -498,7 +498,7 @@ function ServiceCard({ service }: { service: Service }) {
     <button
       type="button"
       className={`service-card service-card--${service.title.toLowerCase().replaceAll(" ", "-")} care-lift`}
-      onClick={openCarePlusBotpress}
+      onClick={startCarePlusProductEnquiry}
       data-reveal
     >
       <span className="service-card__visual" aria-hidden="true">
